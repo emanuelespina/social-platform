@@ -1,0 +1,60 @@
+Milestone_2
+
+Query:
+
+1. Seleziona gli utenti che hanno postato almeno un video
+
+SELECT `users`.`id`,`users`.`username`, COUNT(`medias`.`type`) AS `video_pubblicati`
+FROM `users`
+INNER JOIN `medias`
+ON `users`.`id` = `medias`.`user_id`
+WHERE `type` = "video"
+GROUP BY `users`.`id`
+ORDER BY COUNT(`medias`.`type`) DESC;
+
+Ho selezionato tutti gli studenti che hanno pubblicato almeno un video ragruppandoli tramite id e mostrando il loro username e numero di video caricati successivamente li ho ordinati in base alla quantità di video postati 
+
+2. Seleziona tutti i post senza Like
+
+SELECT `posts`.`id`, `posts`.`title`, `posts`.`tags`
+FROM `posts`
+LEFT JOIN `likes`
+ON `posts`.`id` = `likes`.`post_id`
+WHERE `likes`.`post_id` IS NULL
+GROUP BY `posts`.`id`;
+
+Ho selezionato tutti i post nei quale non era presente l'id nella tabella likes mostrando poi id, titolo e tags
+
+3. Conta il numero di like per ogni post 
+
+SELECT `posts`.`id`, `posts`.`title`, `posts`.`tags`, COUNT(`likes`.`user_id`)
+FROM `posts`
+INNER JOIN `likes`
+ON `posts`.`id` = `likes`.`post_id`
+GROUP BY `posts`.`id`;
+
+Ho contato il numero di like raggruppando i posts in base all'id
+
+4. Ordina gli utenti per il numero di media caricati 
+
+SELECT `users`.`id`,`users`.`username`, COUNT(`medias`.`id`) AS `post_caricati`
+FROM `users`
+INNER JOIN `medias`
+ON `users`.`id` = `medias`.`user_id`
+GROUP BY `users`.`id`
+ORDER BY COUNT(`medias`.`id`) DESC;
+
+Ho eseguito le stesse operazioni della prima query senza filtrare i medias solo per i video
+
+5. Ordina gli utenti per totale di likes ricevuti nei loro posts 
+
+SELECT `users`.`id`, `users`.`username`, COUNT(`likes`.`user_id`)AS `total_likes`
+FROM `users`
+INNER JOIN `posts`
+ON `users`.`id` = `posts`.`user_id`
+INNER JOIN `likes`
+ON `posts`.`id` = `likes`.`post_id`
+GROUP BY `users`.`id`
+ORDER BY `total_likes`DESC;
+
+Ho collegato le tabelle users posts e likes seguendo questo ordine (in modo che ogni utente sia stato collegato al post creato e non a possibili likes messi) e grazie a COUNT e GROUP BY ho contato quanti likes sono stati messi nei posts pubblicati da ogni utente, in seguito li ho ordinati in ordine decrescente
