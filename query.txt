@@ -27,9 +27,9 @@ Ho selezionato tutti i post nei quale non era presente l'id nella tabella likes 
 
 3. Conta il numero di like per ogni post 
 
-SELECT `posts`.`id`, `posts`.`title`, `posts`.`tags`, COUNT(`likes`.`user_id`)
+SELECT `posts`.`id`, `posts`.`title`, `posts`.`tags`, COUNT(`likes`.`user_id`) AS `numero_likes`
 FROM `posts`
-INNER JOIN `likes`
+LEFT JOIN `likes`
 ON `posts`.`id` = `likes`.`post_id`
 GROUP BY `posts`.`id`;
 
@@ -37,7 +37,7 @@ Ho contato il numero di like raggruppando i posts in base all'id
 
 4. Ordina gli utenti per il numero di media caricati 
 
-SELECT `users`.`id`,`users`.`username`, COUNT(`medias`.`id`) AS `post_caricati`
+SELECT `users`.`id`,`users`.`username`, COUNT(`medias`.`id`) AS `media_caricati`
 FROM `users`
 INNER JOIN `medias`
 ON `users`.`id` = `medias`.`user_id`
